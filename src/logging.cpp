@@ -14,8 +14,18 @@ std::string Logger::capture_log_prefix(Internal* internal) {
     ss << "decision level " << internal->level << " ";
     return ss.str();
 }
-void Logger::log_to_file(Internal* internal, const char* file_path, const char* fmt, ...) {
+std::string Logger::generate_unique_file_name(const char* base_file_path) {
+    std::stringstream ss;
+    std::time_t t = std::time(nullptr);
+    pid_t pid = getpid();
+    ss << base_file_path << "_" << t << "_" << pid << ".txt";
+    return ss.str();
+}
+
+void Logger::log_to_file(Internal* internal, const char* base_file_path, const char* fmt, ...) {
     std::lock_guard<std::mutex> lock(mtx);
+    
+    std::string file_path = generate_unique_file_name(base_file_path);
     std::ofstream log_file;
     log_file.open(file_path, std::ios_base::app); // append instead of overwrite
     if (!log_file) {
@@ -36,7 +46,7 @@ void Logger::log_to_file(Internal* internal, const char* file_path, const char* 
     // Write the log message to the file
     log_file << log_prefix << buffer << '\n';
     log_file.close();
-}
+} 
 /* ------ end ------ */
 
 void Logger::print_log_prefix (Internal *internal) {
