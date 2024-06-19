@@ -71,7 +71,7 @@ void Solver::transition_to_steady_state () {
 // forces 'LOGGING' to be defined during compilation.  This includes all the
 // logging code, which then still needs to enabled during run-time with the
 // '-l' or 'log' option.
-
+//modify by cl
 static void log_api_call (Internal *internal, const char *name,
                           const char *suffix) {
   Logger::log (internal, "API call %s'%s ()'%s %s", tout.api_code (), name,

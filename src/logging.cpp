@@ -3,6 +3,41 @@
 #include "internal.hpp"
 
 namespace CaDiCaL {
+/* ------added by cl------ */
+std::mutex Logger::mtx;
+
+std::string Logger::capture_log_prefix(Internal* internal) {
+    std::stringstream ss;
+    std::streambuf* old_buf = std::cout.rdbuf(ss.rdbuf()); // Redirect std::cout to stringstream
+    internal->print_prefix();
+    std::cout.rdbuf(old_buf); // Restore original buffer
+    ss << "decision level " << internal->level << " ";
+    return ss.str();
+}
+void Logger::log_to_file(Internal* internal, const char* file_path, const char* fmt, ...) {
+    std::lock_guard<std::mutex> lock(mtx);
+    std::ofstream log_file;
+    log_file.open(file_path, std::ios_base::app); // append instead of overwrite
+    if (!log_file) {
+        std::cerr << "Error: Unable to open log file: " << file_path << std::endl;
+        return;
+    }
+
+    // Capture the log prefix
+    std::string log_prefix = capture_log_prefix(internal);
+    
+    // Format the log message
+    va_list ap;
+    va_start(ap, fmt);
+    char buffer[1024];
+    vsnprintf(buffer, sizeof(buffer), fmt, ap);
+    va_end(ap);
+    
+    // Write the log message to the file
+    log_file << log_prefix << buffer << '\n';
+    log_file.close();
+}
+/* ------ end ------ */
 
 void Logger::print_log_prefix (Internal *internal) {
   internal->print_prefix ();

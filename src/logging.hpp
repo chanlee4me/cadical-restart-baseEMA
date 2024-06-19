@@ -5,6 +5,14 @@
 #ifdef LOGGING
 /*------------------------------------------------------------------------*/
 
+/* ------added by cl------ */
+#include <mutex>
+#include <fstream>
+#include <cstdarg>
+#include <sstream>
+#include <iostream>
+/* ------ end ------ */
+
 #include <vector>
 
 namespace CaDiCaL {
@@ -20,7 +28,12 @@ struct Clause;
 struct Internal;
 
 struct Logger {
-
+/* ------added by cl------ */
+  static mutex mtx;
+  static void log_to_file (Internal *, const char *file_path, const char *fmt, ...)
+      CADICAL_ATTRIBUTE_FORMAT (3, 4);
+  static std::string capture_log_prefix(Internal* internal);
+/* ------ end ------ */
   static void print_log_prefix (Internal *);
 
   // Simple logging of a C-style format string.
@@ -62,13 +75,27 @@ struct Logger {
 
 // Make sure that 'logging' code is really not included (second case of the
 // '#ifdef') if logging code is not included.
-
+/*
 #define LOG(...) \
   do { \
     if (!internal->opts.log) \
       break; \
     Logger::log (internal, __VA_ARGS__); \
   } while (0)
+*/
+#define LOG(...) \
+  do { \
+    if (1) \
+      break; \
+    Logger::log (internal, __VA_ARGS__); \
+  } while (0) 
+/* ------added by cl------ */
+#define LOG_TO_FILE(file_path, ...) \
+  do { \
+    Logger::log_to_file (internal, file_path, __VA_ARGS__); \
+  } while (0)
+//使用方法：LOG("/path/to/log.txt", "This is a log message");
+/* ------ end ------ */
 
 /*------------------------------------------------------------------------*/
 #else // end of 'then' part of 'ifdef LOGGING'
@@ -77,7 +104,12 @@ struct Logger {
 #define LOG(...) \
   do { \
   } while (0)
-
+#define LOG_TO_FILE(file_path, ...) \
+  do { \
+    if (0) \
+      break; \
+    Logger::log_to_file (internal, file_path, __VA_ARGS__); \
+  } while (0)
 /*------------------------------------------------------------------------*/
 #endif // end of 'else' part of 'ifdef LOGGING'
 /*------------------------------------------------------------------------*/
