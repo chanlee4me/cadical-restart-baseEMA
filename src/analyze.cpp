@@ -1071,8 +1071,8 @@ void Internal::analyze () {
   LOG (clause, "1st UIP size %d and glue %d clause", size, glue);
   UPDATE_AVERAGE (averages.current.glue.fast, glue);
 /* ------added by cl------ */
-  LOG_TO_FILE("/home/chanlee/newSAT/cadical-ema-2.0.0/log.txt", "conflicts %" PRId64 " and glue %d", stats.conflicts, glue);
-  LOG_TO_FILE("/home/chanlee/newSAT/cadical-ema-2.0.0/log.txt", "stabconflicts %" PRId64 " and glue %d", stats.stabconflicts, glue);
+  LOG_TO_FILE("/home/wgf/chenli/SAT/logging-LBD/base", "conflicts %" PRId64 " and glue %d", stats.conflicts, glue);
+  LOG_TO_FILE("/home/wgf/chenli/SAT/logging-LBD/base", "stabconflicts %" PRId64 " and glue %d", stats.stabconflicts, glue);
 /* ------ end ------ */
   UPDATE_AVERAGE (averages.current.glue.slow, glue);
   stats.learned.literals += size;

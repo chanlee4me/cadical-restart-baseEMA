@@ -5,7 +5,7 @@
 namespace CaDiCaL {
 /* ------added by cl------ */
 std::mutex Logger::mtx;
-
+std::string Logger::log_file_path;
 std::string Logger::capture_log_prefix(Internal* internal) {
     std::stringstream ss;
     std::streambuf* old_buf = std::cout.rdbuf(ss.rdbuf()); // Redirect std::cout to stringstream
@@ -21,15 +21,22 @@ std::string Logger::generate_unique_file_name(const char* base_file_path) {
     ss << base_file_path << "_" << t << "_" << pid << ".txt";
     return ss.str();
 }
-
-void Logger::log_to_file(Internal* internal, const char* base_file_path, const char* fmt, ...) {
+void Logger::initialize(const char* base_file_path) {
     std::lock_guard<std::mutex> lock(mtx);
-    
-    std::string file_path = generate_unique_file_name(base_file_path);
+    log_file_path = generate_unique_file_name(base_file_path);
+}
+void Logger::log_to_file(Internal* internal, const char* fmt, ...) {
+    std::lock_guard<std::mutex> lock(mtx);
+
+    if (log_file_path.empty()) {
+        std::cerr << "Error: Logger not initialized. Call initialize() first." << std::endl;
+        return;
+    }
+
     std::ofstream log_file;
-    log_file.open(file_path, std::ios_base::app); // append instead of overwrite
+    log_file.open(log_file_path, std::ios_base::app); // append instead of overwrite
     if (!log_file) {
-        std::cerr << "Error: Unable to open log file: " << file_path << std::endl;
+        std::cerr << "Error: Unable to open log file: " << log_file_path << std::endl;
         return;
     }
 
@@ -46,7 +53,7 @@ void Logger::log_to_file(Internal* internal, const char* base_file_path, const c
     // Write the log message to the file
     log_file << log_prefix << buffer << '\n';
     log_file.close();
-} 
+}
 /* ------ end ------ */
 
 void Logger::print_log_prefix (Internal *internal) {
