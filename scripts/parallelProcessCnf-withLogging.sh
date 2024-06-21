@@ -24,7 +24,7 @@ ls *.cnf | xargs -n 3 -P 192 -I {} bash -c '
 
  temp_file=$(mktemp)
  printf "%s," $str >>$temp_file #record the absolutly cnf file path
- timeout 3600  /home/wgf/chenli/SAT/cadical-restart-baseEMA/build/cadical $str |awk -F "[{}]"  "/statistics/{flag1=1;next} flag1{print \$0; if(++n1==29) flag1=0} /resources/{flag2=1;next} flag2{print \$0; if(++n2==6) exit}"   >>$temp_file
+ timeout 3600  /home/wgf/chenli/SAT/cadical-restart-baseEMA/build/cadical -l $str |awk -F "[{}]"  "/statistics/{flag1=1;next} flag1{print \$0; if(++n1==29) flag1=0} /resources/{flag2=1;next} flag2{print \$0; if(++n2==6) exit}"   >>$temp_file
  printf "\n" >>$temp_file
  echo "end $str"
 

@@ -1069,6 +1069,10 @@ void Internal::analyze () {
   int size = (int) clause.size ();
   const int glue = (int) levels.size () - 1;
   LOG (clause, "1st UIP size %d and glue %d clause", size, glue);
+  /* ------added by cl------ */
+  /*将上一次的glue值记录到glue.preFast中*/
+  averages.current.glue.preFast = averages.current.glue.fast;
+  /* ------ end ------ */
   UPDATE_AVERAGE (averages.current.glue.fast, glue);
   
 /* ------added by cl------ */
