@@ -73,6 +73,8 @@ bool Internal::restarting () {
   double margin = (100.0 + opts.restartmargin) / 100.0;
   double s = averages.current.glue.slow, l = margin * s;
   LOG ("EMA glue slow %.2f fast %.2f limit %.2f", s, f, l);
+  if(l <= f)
+    LOG_TO_FILE("/home/wgf/chenli/SAT/logging-LBD/base", "conflicts %" PRId64 " excute RESTART", stats.conflicts);
   return l <= f;
 }
 
