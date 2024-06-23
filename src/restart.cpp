@@ -82,13 +82,13 @@ bool Internal::restarting () {
     double diff = f - averages.current.glue.preFast;
     if(diff < 0)
     { 
-      double c = 0.9; //控制下降阈值
+      double c = 0.95; //控制下降阈值
       double predictNextF = f + diff;
       if(predictNextF < c * l)
         return false;
     }
   }
-  /* ------ end ------ */
+  /* ------ end ------ */ 
   return l <= f;
 }
 
