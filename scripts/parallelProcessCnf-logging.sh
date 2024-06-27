@@ -3,7 +3,7 @@ cd /home/wgf/chenli/SAT/2022cnf
 #结果文件的位置
 processed_files="/home/wgf/chenli/SAT/baseEMA-restart_result.csv"
 #处理的cnf文件个数
-total_files=400
+total_files=10
 
 # 获取系统的CPU核心数
 num_cores=$(nproc)
@@ -23,7 +23,7 @@ head -n $total_files /tmp/unprocessed_files.txt | xargs -n 1 -P $num_cores -I {}
     
     temp_file=$(mktemp)
     printf "%s," "$str" >> "$temp_file"
-    timeout 3600 /home/wgf/chenli/SAT/cadical-restart-baseEMA/build/cadical "$str" | awk -F "[{}]" "/statistics/{flag1=1;next} flag1{print \$0; if(++n1==29) flag1=0} /resources/{flag2=1;next} flag2{print \$0; if(++n2==6) exit}" >> "$temp_file"
+    timeout 3600 /home/wgf/chenli/SAT/cadical-restart-baseEMA/build/cadical -l "$str" | awk -F "[{}]" "/statistics/{flag1=1;next} flag1{print \$0; if(++n1==29) flag1=0} /resources/{flag2=1;next} flag2{print \$0; if(++n2==6) exit}" >> "$temp_file"
     printf "\n" >> "$temp_file"
     echo "end $str"
     

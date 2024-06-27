@@ -14,6 +14,9 @@ struct Averages {
     struct {
       EMA fast; // average fast (small window) moving glucose level
       EMA slow; // average slow (large window) moving glucose level
+/* ------added by cl------ */
+      EMA preFast;
+/* ------ end ------ */
     } glue;
 
     struct {

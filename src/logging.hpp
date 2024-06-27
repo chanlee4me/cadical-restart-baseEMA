@@ -119,7 +119,6 @@ struct Logger {
   } while (0)
 #define LOG_TO_FILE(base_file_path, ...) \
     do { \
-        Logger::log_to_file(internal, base_file_path, __VA_ARGS__); \
     } while (0)
 /*------------------------------------------------------------------------*/
 #endif // end of 'else' part of 'ifdef LOGGING'
