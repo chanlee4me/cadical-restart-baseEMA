@@ -74,7 +74,19 @@ bool Internal::restarting () {
   double s = averages.current.glue.slow, l = margin * s;
   LOG ("EMA glue slow %.2f fast %.2f limit %.2f", s, f, l);
   if(l <= f)
+  {
     LOG_TO_FILE("/home/wgf/chenli/SAT/logging-LBD/base", "conflicts %" PRId64 " excute RESTART", stats.conflicts);
+    //若f是在下降的趋势，且按照当前的速度下降，f在下一个restart时会小于l，那么就不需要restart
+    // double diff = f - averages.current.glue.preFast;
+    // if(diff < 0)
+    // { 
+    //   double c = 0.96001; //控制下降阈值
+    //   double predictNextF = f + diff;
+    //   if(predictNextF < c * l)
+    //     return false;
+    // }
+  }
+  /* ------ end ------ */ 
   return l <= f;
 }
 
