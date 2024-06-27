@@ -34,15 +34,10 @@ struct Logger {
   static mutex mtx;
 
   static void initialize(const char* base_file_path);
-  static void log_to_file(Internal* internal, const char* fmt, ...);
-  static std::string capture_log_prefix(Internal* internal);
+  static void log_to_file(Internal*, const char* fmt, ...);
+  static std::string capture_log_prefix(Internal*);
   static std::string log_file_path;
   static std::string generate_unique_file_name(const char* base_file_path);
-
-  // static void log_to_file (Internal *, const char *file_path, const char *fmt, ...)
-  //     CADICAL_ATTRIBUTE_FORMAT (3, 4);
-  // static std::string capture_log_prefix(Internal* internal);
-  // static std::string generate_unique_file_name(const char* base_file_path);
 /* ------ end ------ */
   static void print_log_prefix (Internal *);
 

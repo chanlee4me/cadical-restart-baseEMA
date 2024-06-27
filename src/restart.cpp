@@ -77,7 +77,7 @@ bool Internal::restarting () {
   /* l<f说明f太大了 */
   if(l <= f)
   {
-    LOG_TO_FILE("/home/wgf/chenli/SAT/logging-LBD/base", "conflicts %" PRId64 " excute RESTART", stats.conflicts);
+    // LOG_TO_FILE("/home/wgf/chenli/SAT/logging-LBD/base", "conflicts %" PRId64 " excute RESTART", stats.conflicts);
     //若f是在下降的趋势，且按照当前的速度下降，f在下一个restart时会小于l，那么就不需要restart
     double diff = f - averages.current.glue.preFast;
     if(diff < 0)

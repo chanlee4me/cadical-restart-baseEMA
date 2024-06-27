@@ -1076,8 +1076,8 @@ void Internal::analyze () {
   UPDATE_AVERAGE (averages.current.glue.fast, glue);
   
 /* ------added by cl------ */
-  double fGlue = averages.current.glue.fast;
-  LOG_TO_FILE("/home/wgf/chenli/SAT/logging-LBD/base", "conflicts %lld"  " and fast EMA glue %f", stats.conflicts, fGlue);
+  // double fGlue = averages.current.glue.fast;
+  // LOG_TO_FILE("/home/wgf/chenli/SAT/logging-LBD/base", "conflicts %lld"  " and fast EMA glue %f", stats.conflicts, fGlue);
   // LOG_TO_FILE("/home/wgf/chenli/SAT/logging-LBD/base", "stabconflicts %" PRId64 " and glue %d", stats.stabconflicts, glue);
 /* ------ end ------ */
 
@@ -1085,7 +1085,7 @@ void Internal::analyze () {
 
 /* ------added by cl------ */
   double sGlue = averages.current.glue.slow;
-  LOG_TO_FILE("/home/wgf/chenli/SAT/logging-LBD/base", "conflicts %lld" " and slow EMA glue %f", stats.conflicts, sGlue);
+  // LOG_TO_FILE("/home/wgf/chenli/SAT/logging-LBD/base", "conflicts %lld" " and slow EMA glue %f", stats.conflicts, sGlue);
 /* ------ end ------ */
 
   stats.learned.literals += size;

@@ -885,13 +885,28 @@ int App::main (int argc, char **argv) {
 
   if (res == 10) {
     if (status)
+    {
       fputs ("s SATISFIABLE\n", write_result_file);
+/* ------added by cl------ */
+      LOG_TO_FILE("/home/wgf/chenli/SAT/satifiable-file/SAT", "BASE-EMA-SATISFIABLE\n");
+/* ------ end ------ */
+    }
     if (witness)
       print_witness (write_result_file);
   } else if (res == 20 && status)
+  {
     fputs ("s UNSATISFIABLE\n", write_result_file);
+/* ------added by cl------ */
+    LOG_TO_FILE("/home/wgf/chenli/SAT/unsatisfiable-file/SAT", "BASE-EMA-UNSATISFIABLE\n");
+/* ------ end ------ */
+  }
   else if (status)
+  {
     fputs ("c UNKNOWN\n", write_result_file);
+/* ------added by cl------ */
+    LOG_TO_FILE("/home/wgf/chenli/SAT/unkonwn-file/SAT", "BASE-EMA-UNKNOWN\n");
+/* ------ end ------ */
+  }
   fflush (write_result_file);
   if (write_result_path)
     fclose (write_result_file);
